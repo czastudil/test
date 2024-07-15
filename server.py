@@ -33,11 +33,6 @@ def hello():
 
 user_img_url = "./userImage.png"
 
-
-@app.route("/")
-def helloWorld():
-  return "Hello, cross-origin-world!"
-
 @app.route('/api/send-data', methods=['POST'])
 def receive_data():
     image_data = request.json  # Assuming JSON data is sent
