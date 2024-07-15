@@ -1,5 +1,5 @@
 from Conversation import *
-from Segmentation import *
+#from Segmentation import *
 
 import time
 import os
@@ -77,7 +77,7 @@ def copy_files_to_directory(src_files, dest_dir):
         shutil.copy(src_file, dest_dir)
 
 
-def get_masks(img_url, sam_url, dataObject):
+"""def get_masks(img_url, sam_url, dataObject):
     data, mask_images = compute_masks(img_url, sam_url)
 
     delete_files_in_directory("./masks")
@@ -86,7 +86,7 @@ def get_masks(img_url, sam_url, dataObject):
         cv2.imwrite(f"./masks/mask{i+1}.png",mask_image)
     print("finished masking")
 
-    dataObject.extend(data)
+    dataObject.extend(data)"""
 
 def parse_hotspots(gpt_response):
     '''
