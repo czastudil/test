@@ -24,7 +24,7 @@ def write_image(fileName, image_data):
 
 
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 
 @app.route('/')
 def hello():
