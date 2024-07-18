@@ -1,2 +1,2 @@
-web: gunicorn app:app
-web: gunicorn main:app
+web: gunicorn app:vsd_server
+web: gunicorn server:vsd_server

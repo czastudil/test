@@ -1,6 +1,5 @@
 from Conversation import *
-from server import start_server
-#from Segmentation import * # Removed segmentation functionality
+#from Segmentation import *
 
 import os
 import shutil
@@ -18,22 +17,6 @@ colors = [
     [[240, 248, 255, alpha_value], [0, 0, 255, alpha_value]],       # Alice Blue -> Blue
     [[255, 250, 205, alpha_value], [255, 255, 0, alpha_value]],     # Lemon Chiffon -> Yellow
 ]
-
-"""def write_image(fileName, image_data):
-    if image_data.startswith('data:image/png;base64,'):
-        image_data = image_data.replace('data:image/png;base64,', '')
-    
-    # Decode the base64 string
-    decoded_data = base64.b64decode(image_data)
-    
-    # Convert the byte data to a numpy array
-    np_arr = np.frombuffer(decoded_data, np.uint8)
-    
-    # Decode the numpy array to an image
-    image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-    
-    # Save the image
-    cv2.imwrite(fileName, image)"""
 
 class Hotspot:
     def __init__(self, hotspotName='', options=[]):
@@ -89,7 +72,7 @@ def copy_files_to_directory(src_files, dest_dir):
         shutil.copy(src_file, dest_dir)
 
 
-"""def get_masks(img_url, sam_url, dataObject):
+def get_masks(img_url, sam_url, dataObject):
     data, mask_images = compute_masks(img_url, sam_url)
 
     delete_files_in_directory("./masks")
@@ -98,14 +81,14 @@ def copy_files_to_directory(src_files, dest_dir):
         cv2.imwrite(f"./masks/mask{i+1}.png",mask_image)
     print("finished masking")
 
-    dataObject.extend(data)"""
+    dataObject.extend(data)
 
 def parse_hotspots(gpt_response):
     '''
-    Assuming the following format:
-    Hotspot 1:
-        - Option 1:
-        - Option 2:
+Assuming the following format:
+Hotspot 1:
+- Option 1:
+- Option 2:
     '''
     colorCopy = colors[:]
     gpt_response = gpt_response.split('\n')
@@ -171,7 +154,7 @@ Hotspot 1: Hotspot
 - Option 1: Option
 - Option 2: Option
 etc.'''
-hotspots_message = Message(hotspots_prompt, imgPaths=[img_url])
+#hotspots_message = Message(hotspots_prompt, imgPaths=[img_url])
 
 masks_prompt = '''I have presented you with the same image, as well as a mask. The mask is the original image, except most of the image is grayed out. However, a
 part of the image is left untouched. Is this one of the
@@ -185,10 +168,6 @@ def retrieve_data(user_img_url):
     hotspots = parse_hotspots(conversation.conversation[-1].text)
     return hotspots
                           
-
-if __name__ == "__main__":
-    # Start server
-    start_server()
 
 '''
 if __name__ == "__main__":

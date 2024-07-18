@@ -2,8 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from main import *
 
-import time
-import random
 import json
 
 def write_image(fileName, image_data):
@@ -23,17 +21,18 @@ def write_image(fileName, image_data):
     cv2.imwrite(fileName, image)
 
 
-app = Flask(__name__)
-CORS(app)
+vsd_server = Flask(__name__)
+CORS(vsd_server)
 
-@app.route('/')
+@vsd_server.route('/')
 def hello():
     return 'Hello, World!'
 
 
 user_img_url = "./userImage.png"
 
-@app.route('/api/send-data', methods=['POST'])
+
+@vsd_server.route('/api/send-data', methods=['POST'])
 def receive_data():
     image_data = request.json  # Assuming JSON data is sent
     write_image(user_img_url, image_data)
@@ -45,17 +44,16 @@ def receive_data():
     return jsonify([hs.toJSON() for hs in hotspots])
     
 
-@app.route('/api/send-mask', methods=['POST'])
+@vsd_server.route('/api/send-mask', methods=['POST'])
 def receive_mask():
     image_data = request.json
     write_image(user_img_url, image_data)
     return
 
-@app.route('/api/send-VSD', methods=['POST'])
+@vsd_server.route('/api/send-VSD', methods=['POST'])
 def receive_VSD():
     with open("sampleVSD.json", "w") as VSD:
         json.dump(request.json, VSD)
 
-def start_server():
-    app.run()
+vsd_server.run()
 print("why we stop running?")
