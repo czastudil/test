@@ -1,19 +1,9 @@
 from Conversation import *
-#from Segmentation import *
+from server import start_server
+#from Segmentation import * # Removed segmentation functionality
 
-import time
 import os
-import threading
 import shutil
-import random
-
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from main import *
-
-import time
-import random
-import json
 
 alpha_value = 77
 colors = [
@@ -29,7 +19,7 @@ colors = [
     [[255, 250, 205, alpha_value], [255, 255, 0, alpha_value]],     # Lemon Chiffon -> Yellow
 ]
 
-def write_image(fileName, image_data):
+"""def write_image(fileName, image_data):
     if image_data.startswith('data:image/png;base64,'):
         image_data = image_data.replace('data:image/png;base64,', '')
     
@@ -43,41 +33,7 @@ def write_image(fileName, image_data):
     image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     
     # Save the image
-    cv2.imwrite(fileName, image)
-
-
-app = Flask(__name__)
-CORS(app)
-
-@app.route('/')
-def hello():
-    return 'Hello, World!'
-
-
-user_img_url = "./userImage.png"
-
-@app.route('/api/send-data', methods=['POST'])
-def receive_data():
-    image_data = request.json  # Assuming JSON data is sent
-    write_image(user_img_url, image_data)
-    
-    hotspots = retrieve_data(user_img_url)
-    for hs in hotspots:
-        print (hs.toJSON())
-
-    return jsonify([hs.toJSON() for hs in hotspots])
-    
-
-@app.route('/api/send-mask', methods=['POST'])
-def receive_mask():
-    image_data = request.json
-    write_image(user_img_url, image_data)
-    return
-
-@app.route('/api/send-VSD', methods=['POST'])
-def receive_VSD():
-    with open("sampleVSD.json", "w") as VSD:
-        json.dump(request.json, VSD)
+    cv2.imwrite(fileName, image)"""
 
 class Hotspot:
     def __init__(self, hotspotName='', options=[]):
@@ -146,10 +102,10 @@ def copy_files_to_directory(src_files, dest_dir):
 
 def parse_hotspots(gpt_response):
     '''
-Assuming the following format:
-Hotspot 1:
-- Option 1:
-- Option 2:
+    Assuming the following format:
+    Hotspot 1:
+        - Option 1:
+        - Option 2:
     '''
     colorCopy = colors[:]
     gpt_response = gpt_response.split('\n')
@@ -231,7 +187,8 @@ def retrieve_data(user_img_url):
                           
 
 if __name__ == "__main__":
-    app.run()
+    # Start server
+    start_server()
 
 '''
 if __name__ == "__main__":

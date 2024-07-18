@@ -56,5 +56,6 @@ def receive_VSD():
     with open("sampleVSD.json", "w") as VSD:
         json.dump(request.json, VSD)
 
-app.run()
+def start_server():
+    app.run()
 print("why we stop running?")
