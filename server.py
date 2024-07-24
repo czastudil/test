@@ -26,7 +26,7 @@ CORS(vsd_server)
 
 @vsd_server.route('/')
 def hello():
-    return 'Hello, World!'
+    return "<h1>Hello World</h1>"
 
 
 user_img_url = "./userImage.png"
